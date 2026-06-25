@@ -15,13 +15,13 @@
     <!-- Google Fonts — loaded async to avoid render-blocking -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- TODO: Google Fonts CSS is generated per request, so avoid a brittle SRI hash here. -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"></noscript>
     <!-- Font Awesome — loaded async to avoid render-blocking -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous"></noscript>
     <!-- Custom CSS -->
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -31,8 +31,8 @@
     <!-- Header & Navigation -->
     <header class="header" id="header">
         <nav class="navbar container">
-            <a href="#" class="logo">Net<span>Eng</span></a>
-            
+            <a href="#home" class="logo">Net<span>Eng</span></a>
+
             <div class="nav-menu" id="nav-menu">
                 <ul class="nav-list">
                     <li class="nav-item"><a href="#home" class="nav-link active">Home</a></li>
@@ -44,7 +44,7 @@
                 </ul>
             </div>
 
-            <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
+            <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Toggle navigation menu" aria-controls="nav-menu" aria-expanded="false">
                 <i aria-hidden="true" class="fas fa-bars"></i>
             </button>
         </nav>
@@ -56,13 +56,12 @@
             <div class="container home-container">
                 <div class="home-content reveal">
                     <span class="home-subtitle">Hello, I'm Ahmad Ilham</span>
-                    <h1 class="home-title">Network Engineer & <br> <span>Infrastructure Specialist</span></h1>
+                    <h1 class="home-title">Network Engineer &amp; <br> <span>Infrastructure Specialist</span></h1>
                     <p class="home-description">
                         Designing, configuring, and troubleshooting secure network infrastructure with Cisco routing, switching, VLAN, OSPF, IPsec VPN, and network security.
                     </p>
                     <div class="home-buttons">
                         <a href="#projects" class="btn btn-primary">View Projects</a>
-                        <a href="assets/resume.pdf" class="btn btn-outline" download>Download Resume</a>
                         <a href="#contact" class="btn btn-outline">Get in Touch</a>
                     </div>
                 </div>
@@ -105,14 +104,14 @@
             <div class="container">
                 <h2 class="section-title reveal">Technical Skills</h2>
                 <div class="skills-container reveal">
-                    
+
                     <div class="skills-card">
                         <div class="skills-icon"><i aria-hidden="true" class="fas fa-route"></i></div>
-                        <h3 class="skills-title">Routing & Switching</h3>
+                        <h3 class="skills-title">Routing &amp; Switching</h3>
                         <ul class="skills-list">
                             <li>OSPF, EIGRP, BGP</li>
                             <li>VLANs, STP, VTP, EtherChannel</li>
-                            <li>IPv4 & IPv6 Addressing</li>
+                            <li>IPv4 &amp; IPv6 Addressing</li>
                             <li>Cisco IOS Configuration</li>
                         </ul>
                     </div>
@@ -131,7 +130,7 @@
 
                     <div class="skills-card">
                         <div class="skills-icon"><i aria-hidden="true" class="fas fa-terminal"></i></div>
-                        <h3 class="skills-title">Linux & Automation</h3>
+                        <h3 class="skills-title">Linux &amp; Automation</h3>
                         <ul class="skills-list">
                             <li>Linux Administration</li>
                             <li>Python Scripting</li>
@@ -158,7 +157,8 @@
                             <h3 class="cert-name">Cisco Certified Network Associate (CCNA)</h3>
                             <p class="cert-issuer">Issued by Cisco</p>
                             <p class="cert-date">Date: 202X - Valid through 202X</p>
-                            <a href="#" class="cert-link">Verify Credential <i aria-hidden="true" class="fas fa-external-link-alt"></i></a>
+                            <!-- TODO: Replace with a real credential verification URL when available. -->
+                            <span class="cert-link cert-link-disabled" aria-disabled="true">Credential verification coming soon</span>
                         </div>
                     </div>
 
@@ -170,7 +170,8 @@
                             <h3 class="cert-name">AWS Certified Cloud Practitioner</h3>
                             <p class="cert-issuer">Issued by Amazon Web Services</p>
                             <p class="cert-date">Date: 202X - Valid through 202X</p>
-                            <a href="#" class="cert-link">Verify Credential <i aria-hidden="true" class="fas fa-external-link-alt"></i></a>
+                            <!-- TODO: Replace with a real credential verification URL when available. -->
+                            <span class="cert-link cert-link-disabled" aria-disabled="true">Credential verification coming soon</span>
                         </div>
                     </div>
                 </div>
@@ -180,9 +181,9 @@
         <!-- Projects/Experience Section -->
         <section class="projects section" id="projects">
             <div class="container">
-                <h2 class="section-title reveal">Projects & Labs</h2>
+                <h2 class="section-title reveal">Projects &amp; Labs</h2>
                 <div class="projects-container reveal">
-                    
+
                     <div class="project-card">
                         <div class="project-content">
                             <h3 class="project-title">Enterprise Network Design</h3>
@@ -266,7 +267,7 @@
                 <div class="contact-container reveal">
                     <div class="contact-info">
                         <p class="contact-desc">Currently open for new opportunities. Whether you have a question or just want to say hi, I'll try my best to get back to you!</p>
-                        
+
                         <div class="contact-details">
                             <div class="contact-item">
                                 <i aria-hidden="true" class="fas fa-envelope"></i>
@@ -279,9 +280,10 @@
                         </div>
 
                         <div class="social-links">
-                            <a href="#" class="social-link" aria-label="LinkedIn Profile" rel="noopener noreferrer" target="_blank"><i aria-hidden="true" class="fab fa-linkedin-in"></i></a>
-                            <a href="#" class="social-link" aria-label="GitHub Profile" rel="noopener noreferrer" target="_blank"><i aria-hidden="true" class="fab fa-github"></i></a>
-                            <a href="#" class="social-link" aria-label="Twitter Profile" rel="noopener noreferrer" target="_blank"><i aria-hidden="true" class="fab fa-twitter"></i></a>
+                            <!-- TODO: Replace placeholders with real profile URLs when available. -->
+                            <span class="social-link social-link-disabled" role="img" aria-label="LinkedIn profile URL coming soon" title="LinkedIn URL coming soon"><i aria-hidden="true" class="fab fa-linkedin-in"></i></span>
+                            <span class="social-link social-link-disabled" role="img" aria-label="GitHub profile URL coming soon" title="GitHub URL coming soon"><i aria-hidden="true" class="fab fa-github"></i></span>
+                            <span class="social-link social-link-disabled" role="img" aria-label="Twitter profile URL coming soon" title="Twitter URL coming soon"><i aria-hidden="true" class="fab fa-twitter"></i></span>
                         </div>
                     </div>
 
@@ -299,6 +301,7 @@
                             <textarea id="contact-message" name="message" placeholder="Message" class="form-input" rows="5" required></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary" id="contact-submit">Send Message</button>
+                        <p class="form-status" id="contact-status" role="status" aria-live="polite" hidden></p>
                     </form>
                 </div>
             </div>
@@ -310,18 +313,19 @@
         <div class="container">
             <div class="footer-container">
                 <div class="footer-content">
-                    <a href="#" class="logo">Net<span>Eng</span></a>
+                    <a href="#home" class="logo">Net<span>Eng</span></a>
                     <p class="footer-desc">Designing, implementing, and maintaining robust network infrastructures.</p>
                 </div>
                 <div class="footer-socials">
-                    <a href="#" class="social-link" aria-label="LinkedIn Profile" rel="noopener noreferrer" target="_blank"><i aria-hidden="true" class="fab fa-linkedin-in"></i></a>
-                    <a href="#" class="social-link" aria-label="GitHub Profile" rel="noopener noreferrer" target="_blank"><i aria-hidden="true" class="fab fa-github"></i></a>
-                    <a href="#" class="social-link" aria-label="Twitter Profile" rel="noopener noreferrer" target="_blank"><i aria-hidden="true" class="fab fa-twitter"></i></a>
+                    <!-- TODO: Replace placeholders with real profile URLs when available. -->
+                    <span class="social-link social-link-disabled" role="img" aria-label="LinkedIn profile URL coming soon" title="LinkedIn URL coming soon"><i aria-hidden="true" class="fab fa-linkedin-in"></i></span>
+                    <span class="social-link social-link-disabled" role="img" aria-label="GitHub profile URL coming soon" title="GitHub URL coming soon"><i aria-hidden="true" class="fab fa-github"></i></span>
+                    <span class="social-link social-link-disabled" role="img" aria-label="Twitter profile URL coming soon" title="Twitter URL coming soon"><i aria-hidden="true" class="fab fa-twitter"></i></span>
                 </div>
             </div>
             <div class="footer-bottom">
                 <p class="footer-copy">&#169; <span id="footer-year"></span> Network Engineer. All rights reserved.</p>
-                <a href="#" class="back-to-top" aria-label="Back to top">
+                <a href="#home" class="back-to-top" aria-label="Back to top">
                     <i class="fas fa-arrow-up"></i>
                 </a>
             </div>
@@ -329,7 +333,7 @@
     </footer>
 
     <!-- Smooth Scroll Library (Lenis) — defer to avoid render-blocking -->
-    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js" defer></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js" integrity="sha384-KZetIXtrdbXstGhLNEbeSTfjZCr0QrioGU9dJl486Zr69ewuEbtdUsrqTIkGOPgl" crossorigin="anonymous" defer></script>
     <!-- Custom JS — defer ensures execution after HTML parse and after above libs -->
     <script src="script.js" defer></script>
 </body>

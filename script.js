@@ -16,54 +16,106 @@ if (typeof Lenis !== 'undefined') {
 const navMenu = document.getElementById('nav-menu');
 const navToggle = document.getElementById('nav-toggle');
 const navLinks = document.querySelectorAll('.nav-link');
+const mobileMenuQuery = window.matchMedia('(max-width: 768px)');
+
+function setNavMenuOpen(isOpen) {
+    if (!navMenu || !navToggle) return;
+
+    navMenu.classList.toggle('show-menu', isOpen);
+    navToggle.setAttribute('aria-expanded', String(isOpen));
+
+    const icon = navToggle.querySelector('i');
+    if (icon) {
+        icon.classList.toggle('fa-bars', !isOpen);
+        icon.classList.toggle('fa-times', isOpen);
+    }
+
+    const hideClosedMobileMenu = mobileMenuQuery.matches && !isOpen;
+    navMenu.setAttribute('aria-hidden', String(hideClosedMobileMenu));
+    navMenu.toggleAttribute('inert', hideClosedMobileMenu);
+    navMenu.querySelectorAll('a').forEach(link => {
+        if (hideClosedMobileMenu) {
+            link.setAttribute('tabindex', '-1');
+        } else {
+            link.removeAttribute('tabindex');
+        }
+    });
+}
+
+function syncNavMenuState() {
+    if (!navMenu || !navToggle) return;
+
+    if (mobileMenuQuery.matches) {
+        setNavMenuOpen(navMenu.classList.contains('show-menu'));
+    } else {
+        setNavMenuOpen(false);
+        navMenu.setAttribute('aria-hidden', 'false');
+        navMenu.removeAttribute('inert');
+    }
+}
+
+function getTargetFromHash(hash) {
+    if (!hash || hash === '#') return null;
+    return document.getElementById(hash.slice(1));
+}
+
+function focusTarget(targetElement) {
+    const hadTabIndex = targetElement.hasAttribute('tabindex');
+    if (!hadTabIndex) targetElement.setAttribute('tabindex', '-1');
+
+    try {
+        targetElement.focus({ preventScroll: true });
+    } catch {
+        targetElement.focus();
+    }
+
+    if (!hadTabIndex) {
+        targetElement.addEventListener('blur', () => {
+            targetElement.removeAttribute('tabindex');
+        }, { once: true });
+    }
+}
+
+function scrollToTarget(targetElement, hash) {
+    if (window.history && hash) {
+        history.pushState(null, '', hash);
+    }
+
+    if (lenis) {
+        lenis.scrollTo(targetElement, { offset: -70 });
+    } else {
+        targetElement.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    focusTarget(targetElement);
+}
 
 // Toggle menu on click
-if (navToggle) {
+if (navMenu && navToggle) {
+    syncNavMenuState();
+
     navToggle.addEventListener('click', () => {
-        navMenu.classList.toggle('show-menu');
-        // Toggle icon between bars and times (close)
-        const icon = navToggle.querySelector('i');
-        const isOpen = navMenu.classList.contains('show-menu');
-        if (isOpen) {
-            icon.classList.remove('fa-bars');
-            icon.classList.add('fa-times');
-        } else {
-            icon.classList.remove('fa-times');
-            icon.classList.add('fa-bars');
-        }
-        // Update aria-expanded state for accessibility
-        navToggle.setAttribute('aria-expanded', isOpen);
+        setNavMenuOpen(!navMenu.classList.contains('show-menu'));
     });
+
+    if (mobileMenuQuery.addEventListener) {
+        mobileMenuQuery.addEventListener('change', syncNavMenuState);
+    } else {
+        mobileMenuQuery.addListener(syncNavMenuState);
+    }
 }
 
 // Close menu and smooth scroll to section when clicking a nav link
 navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
-        e.preventDefault(); // Prevent native instant jump
+        const targetHash = link.getAttribute('href');
+        const targetElement = getTargetFromHash(targetHash);
 
-        // Close mobile menu
-        navMenu.classList.remove('show-menu');
-        const icon = navToggle.querySelector('i');
-        if (icon) {
-            icon.classList.remove('fa-times');
-            icon.classList.add('fa-bars');
-        }
-        if (navToggle) {
-            navToggle.setAttribute('aria-expanded', 'false');
-        }
+        if (!targetElement) return;
 
-        // Smooth scroll using Lenis
-        const targetId = link.getAttribute('href');
-        if (targetId && targetId !== '#') {
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                if (lenis) {
-                    lenis.scrollTo(targetElement, { offset: -70 }); // Offset for the fixed header
-                } else {
-                    targetElement.scrollIntoView({ behavior: 'smooth' }); // Fallback
-                }
-            }
-        }
+        e.preventDefault();
+        setNavMenuOpen(false);
+        scrollToTarget(targetElement, targetHash);
     });
 });
 
@@ -71,12 +123,13 @@ navLinks.forEach(link => {
 const scrollUpBtns = document.querySelectorAll('.logo, .back-to-top');
 scrollUpBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
+        const targetHash = btn.getAttribute('href') || '#home';
+        const targetElement = getTargetFromHash(targetHash);
+
+        if (!targetElement) return;
+
         e.preventDefault();
-        if (lenis) {
-            lenis.scrollTo(0);
-        } else {
-            window.scrollTo({ top: 0, behavior: 'smooth' }); // Fallback
-        }
+        scrollToTarget(targetElement, targetHash);
     });
 });
 
@@ -89,7 +142,8 @@ const sections = document.querySelectorAll('section[id]');
 const sectionNavMap = new Map();
 sections.forEach(section => {
     const id = section.getAttribute('id');
-    const link = document.querySelector(`.nav-menu a[href*="${id}"]`);
+    const safeId = window.CSS && typeof CSS.escape === 'function' ? CSS.escape(id) : id.replace(/"/g, '\\"');
+    const link = document.querySelector(`.nav-menu a[href="#${safeId}"]`);
     if (link) sectionNavMap.set(section, link);
 });
 
@@ -139,19 +193,25 @@ window.addEventListener('scroll', () => {
    SCROLL REVEAL (IntersectionObserver)
    Replaces getBoundingClientRect to avoid forced layout/reflow
 ============================== */
-const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('active');
-            revealObserver.unobserve(entry.target); // Stop observing once revealed
-        }
-    });
-}, {
-    threshold: 0.1,       // Trigger when 10% visible
-    rootMargin: '0px 0px -80px 0px' // Slight offset from bottom
-});
+const revealElements = document.querySelectorAll('.reveal');
 
-document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+if ('IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                revealObserver.unobserve(entry.target); // Stop observing once revealed
+            }
+        });
+    }, {
+        threshold: 0.1,       // Trigger when 10% visible
+        rootMargin: '0px 0px -80px 0px' // Slight offset from bottom
+    });
+
+    revealElements.forEach(el => revealObserver.observe(el));
+} else {
+    revealElements.forEach(el => el.classList.add('active'));
+}
 
 /* ==============================
    CONTACT FORM HANDLER
@@ -161,31 +221,17 @@ if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        const submitBtn = document.getElementById('contact-submit');
-        if (submitBtn.disabled) return; // Prevent double submit
-
-        // Get form values
-        const name = document.getElementById('contact-name').value.trim();
-        const email = document.getElementById('contact-email').value.trim();
-        const message = document.getElementById('contact-message').value.trim();
-
-        if (name && email && message) {
-            // Disable immediately to prevent double submit
-            submitBtn.disabled = true;
-
-            // For now, show a confirmation message
-            // Replace this with a real backend endpoint (e.g., Formspree, Netlify Forms) in production
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'Message Sent! ✓';
-            submitBtn.classList.add('btn-success');
-
-            setTimeout(() => {
-                submitBtn.textContent = originalText;
-                submitBtn.classList.remove('btn-success');
-                submitBtn.disabled = false;
-                contactForm.reset();
-            }, 3000);
+        if (!contactForm.checkValidity()) {
+            contactForm.reportValidity();
+            return;
         }
+
+        const contactStatus = document.getElementById('contact-status');
+        if (!contactStatus) return;
+
+        // TODO: Replace this development-only notice with a backend/Formspree/Netlify Forms integration.
+        contactStatus.textContent = 'Contact form integration is coming soon. Your message was not sent yet.';
+        contactStatus.hidden = false;
     });
 }
 
@@ -202,7 +248,9 @@ if (footerYear) {
    Runs Lenis smooth scroll globally
 ============================== */
 function mainLoop(time) {
-    if (lenis) lenis.raf(time);
+    lenis.raf(time);
     requestAnimationFrame(mainLoop);
 }
-requestAnimationFrame(mainLoop);
+if (lenis) {
+    requestAnimationFrame(mainLoop);
+}
