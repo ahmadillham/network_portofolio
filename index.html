@@ -9,18 +9,8 @@
     <meta property="og:title" content="Network Engineer Portfolio | CCNA Certified">
     <meta property="og:description" content="Portfolio of a Network Engineer with CCNA Certification, specializing in routing, switching, and network security.">
     <meta property="og:type" content="website">
-    <!-- Preconnect to CDN origins for faster resource fetching -->
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <!-- Preconnect to smooth scroll CDN origin -->
     <link rel="preconnect" href="https://unpkg.com" crossorigin>
-    <!-- Google Fonts — loaded async to avoid render-blocking -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- TODO: Google Fonts CSS is generated per request, so avoid a brittle SRI hash here. -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"></noscript>
-    <!-- Font Awesome — loaded async to avoid render-blocking -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous"></noscript>
     <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
@@ -45,7 +35,8 @@
             </div>
 
             <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Toggle navigation menu" aria-controls="nav-menu" aria-expanded="false">
-                <i aria-hidden="true" class="fas fa-bars"></i>
+                <span class="nav-toggle-open">Menu</span>
+                <span class="nav-toggle-close">Close</span>
             </button>
         </nav>
     </header>
@@ -54,7 +45,7 @@
         <!-- Hero Section -->
         <section class="home section" id="home">
             <div class="container home-container">
-                <div class="home-content reveal">
+                <div class="home-content">
                     <span class="home-subtitle">Hello, I'm Ahmad Ilham</span>
                     <h1 class="home-title">Network Engineer &amp; <br> <span>Infrastructure Specialist</span></h1>
                     <p class="home-description">
@@ -106,7 +97,6 @@
                 <div class="skills-container reveal">
 
                     <div class="skills-card">
-                        <div class="skills-icon"><i aria-hidden="true" class="fas fa-route"></i></div>
                         <h3 class="skills-title">Routing &amp; Switching</h3>
                         <ul class="skills-list">
                             <li>OSPF, EIGRP, BGP</li>
@@ -117,7 +107,6 @@
                     </div>
 
                     <div class="skills-card">
-                        <div class="skills-icon"><i aria-hidden="true" class="fas fa-shield-alt"></i></div>
                         <h3 class="skills-title">Network Security</h3>
                         <ul class="skills-list">
                             <li>Access Control Lists (ACLs)</li>
@@ -129,7 +118,6 @@
 
 
                     <div class="skills-card">
-                        <div class="skills-icon"><i aria-hidden="true" class="fas fa-terminal"></i></div>
                         <h3 class="skills-title">Linux &amp; Automation</h3>
                         <ul class="skills-list">
                             <li>Linux Administration</li>
@@ -149,10 +137,6 @@
                 <h2 class="section-title reveal">Certifications</h2>
                 <div class="cert-container reveal">
                     <div class="cert-card">
-                        <div class="cert-badge">
-                            <!-- Placeholder for CCNA badge -->
-                            <i aria-hidden="true" class="fas fa-award"></i>
-                        </div>
                         <div class="cert-info">
                             <h3 class="cert-name">Cisco Certified Network Associate (CCNA)</h3>
                             <p class="cert-issuer">Issued by Cisco</p>
@@ -163,9 +147,6 @@
                     </div>
 
                     <div class="cert-card">
-                        <div class="cert-badge">
-                            <i aria-hidden="true" class="fab fa-aws"></i>
-                        </div>
                         <div class="cert-info">
                             <h3 class="cert-name">AWS Certified Cloud Practitioner</h3>
                             <p class="cert-issuer">Issued by Amazon Web Services</p>
@@ -270,20 +251,11 @@
 
                         <div class="contact-details">
                             <div class="contact-item">
-                                <i aria-hidden="true" class="fas fa-envelope"></i>
                                 <span>network.engineer@example.com</span>
                             </div>
                             <div class="contact-item">
-                                <i aria-hidden="true" class="fas fa-map-marker-alt"></i>
                                 <span>Jakarta, Indonesia</span>
                             </div>
-                        </div>
-
-                        <div class="social-links">
-                            <!-- TODO: Replace placeholders with real profile URLs when available. -->
-                            <span class="social-link social-link-disabled" role="img" aria-label="LinkedIn profile URL coming soon" title="LinkedIn URL coming soon"><i aria-hidden="true" class="fab fa-linkedin-in"></i></span>
-                            <span class="social-link social-link-disabled" role="img" aria-label="GitHub profile URL coming soon" title="GitHub URL coming soon"><i aria-hidden="true" class="fab fa-github"></i></span>
-                            <span class="social-link social-link-disabled" role="img" aria-label="Twitter profile URL coming soon" title="Twitter URL coming soon"><i aria-hidden="true" class="fab fa-twitter"></i></span>
                         </div>
                     </div>
 
@@ -316,18 +288,10 @@
                     <a href="#home" class="logo">Net<span>Eng</span></a>
                     <p class="footer-desc">Designing, implementing, and maintaining robust network infrastructures.</p>
                 </div>
-                <div class="footer-socials">
-                    <!-- TODO: Replace placeholders with real profile URLs when available. -->
-                    <span class="social-link social-link-disabled" role="img" aria-label="LinkedIn profile URL coming soon" title="LinkedIn URL coming soon"><i aria-hidden="true" class="fab fa-linkedin-in"></i></span>
-                    <span class="social-link social-link-disabled" role="img" aria-label="GitHub profile URL coming soon" title="GitHub URL coming soon"><i aria-hidden="true" class="fab fa-github"></i></span>
-                    <span class="social-link social-link-disabled" role="img" aria-label="Twitter profile URL coming soon" title="Twitter URL coming soon"><i aria-hidden="true" class="fab fa-twitter"></i></span>
-                </div>
             </div>
             <div class="footer-bottom">
                 <p class="footer-copy">&#169; <span id="footer-year"></span> Network Engineer. All rights reserved.</p>
-                <a href="#home" class="back-to-top" aria-label="Back to top">
-                    <i class="fas fa-arrow-up"></i>
-                </a>
+                <a href="#home" class="back-to-top">Top</a>
             </div>
         </div>
     </footer>

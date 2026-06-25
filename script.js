@@ -24,12 +24,6 @@ function setNavMenuOpen(isOpen) {
     navMenu.classList.toggle('show-menu', isOpen);
     navToggle.setAttribute('aria-expanded', String(isOpen));
 
-    const icon = navToggle.querySelector('i');
-    if (icon) {
-        icon.classList.toggle('fa-bars', !isOpen);
-        icon.classList.toggle('fa-times', isOpen);
-    }
-
     const hideClosedMobileMenu = mobileMenuQuery.matches && !isOpen;
     navMenu.setAttribute('aria-hidden', String(hideClosedMobileMenu));
     navMenu.toggleAttribute('inert', hideClosedMobileMenu);

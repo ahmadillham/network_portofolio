@@ -21,7 +21,7 @@
     /* Slate 700 */
 
     /* Typography */
-    --body-font: 'Inter', sans-serif;
+    --body-font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans", Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif;
     --h1-size: 3rem;
     --h2-size: 2.25rem;
     --h3-size: 1.5rem;
@@ -227,7 +227,7 @@ img {
 .reveal {
     opacity: 0;
     transform: translateY(30px);
-    transition: all 0.8s ease;
+    transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
 .reveal.active {
@@ -303,13 +303,23 @@ img {
 
 .nav-toggle {
     display: none;
-    font-size: 1.5rem;
     cursor: pointer;
     color: var(--text-main);
     background: none;
     border: none;
-    padding: 0;
+    padding: 0.25rem 0;
     font-family: inherit;
+    font-size: var(--small-font-size);
+    font-weight: 600;
+}
+
+.nav-toggle-close,
+.nav-toggle[aria-expanded="true"] .nav-toggle-open {
+    display: none;
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle-close {
+    display: inline;
 }
 
 /* ==============================
@@ -448,17 +458,6 @@ img {
     border-color: var(--primary-color);
 }
 
-.skills-card:hover .skills-icon {
-    transform: scale(1.15);
-}
-
-.skills-icon {
-    font-size: 3rem;
-    color: var(--primary-color);
-    margin-bottom: 1.5rem;
-    transition: var(--transition);
-}
-
 .skills-title {
     font-size: 1.25rem;
     margin-bottom: 1.5rem;
@@ -476,13 +475,14 @@ img {
 }
 
 .skills-list li::before {
-    content: '\f00c';
-    /* FontAwesome check */
-    font-family: 'Font Awesome 6 Free';
-    font-weight: 900;
-    color: var(--primary-color);
-    margin-right: 10px;
-    font-size: 0.875rem;
+    content: '';
+    width: 0.35rem;
+    height: 0.65rem;
+    margin-right: 0.75rem;
+    border-right: 2px solid var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+    transform: rotate(45deg) translateY(-1px);
+    flex-shrink: 0;
 }
 
 /* ==============================
@@ -496,8 +496,6 @@ img {
 }
 
 .cert-card {
-    display: flex;
-    align-items: center;
     background-color: rgba(30, 41, 59, 0.4);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -506,18 +504,12 @@ img {
     border: 1px solid rgba(255, 255, 255, 0.05);
     max-width: 600px;
     width: 100%;
-    gap: 2rem;
+    text-align: center;
     transition: var(--transition);
 }
 
 .cert-card:hover {
     box-shadow: var(--hover-shadow);
-}
-
-.cert-badge {
-    font-size: 5rem;
-    color: #eab308;
-    /* Yellow/Gold for badge */
 }
 
 .cert-name {
@@ -621,52 +613,8 @@ a.cert-link:hover {
 }
 
 .contact-item {
-    display: flex;
-    align-items: center;
     margin-bottom: 1rem;
     color: var(--text-main);
-}
-
-.contact-item i {
-    font-size: 1.25rem;
-    color: var(--primary-color);
-    margin-right: 1rem;
-    width: 20px;
-    text-align: center;
-}
-
-.social-links {
-    display: flex;
-    gap: 1rem;
-}
-
-.social-link {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 40px;
-    height: 40px;
-    background-color: rgba(30, 41, 59, 0.4);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    color: var(--text-main);
-    border-radius: 50%;
-    transition: var(--transition);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-a.social-link:hover {
-    background-color: var(--primary-btn);
-    color: #fff;
-    border-color: var(--primary-btn);
-    transform: translateY(-3px) scale(1.1);
-    box-shadow: 0 0 15px rgba(14, 165, 233, 0.4);
-}
-
-.social-link-disabled {
-    color: var(--text-light);
-    cursor: default;
-    opacity: 0.7;
 }
 
 .contact-form {
@@ -745,11 +693,6 @@ textarea.form-input {
     font-size: var(--small-font-size);
 }
 
-.footer-socials {
-    display: flex;
-    gap: 1rem;
-}
-
 .footer-bottom {
     display: flex;
     justify-content: space-between;
@@ -762,16 +705,17 @@ textarea.form-input {
 }
 
 .back-to-top {
-    display: flex;
-    justify-content: center;
+    display: inline-flex;
     align-items: center;
-    width: 40px;
-    height: 40px;
+    min-height: 40px;
+    padding: 0.45rem 0.9rem;
     background-color: var(--bg-light);
     color: var(--primary-color);
     border-radius: 6px;
     transition: var(--transition);
     border: 1px solid var(--border-color);
+    font-size: var(--small-font-size);
+    font-weight: 600;
 }
 
 .back-to-top:hover {
@@ -805,12 +749,20 @@ textarea.form-input {
         right: -100%;
         width: 100%;
         background-color: rgba(15, 23, 42, 0.95);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
         padding: 2rem;
         box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         transition: var(--transition);
         border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .header,
+    .nav-menu,
+    .stat-box,
+    .skills-card,
+    .cert-card,
+    .project-card {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
     }
 
     .nav-menu[aria-hidden="true"] {
@@ -838,12 +790,6 @@ textarea.form-input {
 
     .about-stats {
         grid-template-columns: 1fr;
-    }
-
-    .cert-card {
-        flex-direction: column;
-        text-align: center;
-        gap: 1rem;
     }
 
     .footer-container {
